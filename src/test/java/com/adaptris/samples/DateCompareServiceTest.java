@@ -35,9 +35,7 @@ public class DateCompareServiceTest extends ServiceCase {
     DateCompareService service = new DateCompareService();
     service.setDateFormat("yyyy-MM-dd");
     service.setStartDateMetadataKey("key1");
-    service.setStartDateMetadataValue("2019-01-08");
     service.setEndDateMetadataKey("key2");
-    service.setEndDateMetadataValue("2019-01-04");
     service.setOutputMetadataKey("daysDifference");
     return service;
   }

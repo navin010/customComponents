@@ -20,11 +20,13 @@ public class DateCompareService extends ServiceImp {
     private String endDateMetadataKey;
     @NotBlank
     private String outputMetadataKey;
+    @NotBlank
+    private String dateFormat;
 
 
     public void doService(AdaptrisMessage msg) throws ServiceException {
         try {
-            SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat myFormat = new SimpleDateFormat(dateFormat);     //e.g. "yyyy-MM-dd"
 
             String startDateMetadataValue = msg.getMetadataValue(startDateMetadataKey);
             String endDateMetadataValue = msg.getMetadataValue(endDateMetadataKey);
@@ -75,5 +77,13 @@ public class DateCompareService extends ServiceImp {
 
     public void setOutputMetadataKey(String outputMetadataKey) {
         this.outputMetadataKey = outputMetadataKey;
+    }
+
+    public String getDateFormat() {
+        return dateFormat;
+    }
+
+    public void setDateFormat(String dateFormat) {
+        this.dateFormat = dateFormat;
     }
 }

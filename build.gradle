@@ -4,7 +4,7 @@ ext {
   defaultNexusRepo = project.hasProperty('defaultNexusRepo') ? project.getProperty('defaultNexusRepo') : 'https://repo1.maven.org/maven2/'
   componentName='Interlok/Example Service'
   slf4jVersion = '1.7.12'
-  xstreamVersion = '1.4.10'
+  //xstreamVersion = '1.4.10'
 }
 
 if (JavaVersion.current().isJava8Compatible()) {

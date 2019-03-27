@@ -22,31 +22,38 @@ public class DateCompareService extends ServiceImp {
 
     @NotBlank
     private String dateFormat;
+
     @NotBlank
     private String startDateMetadataKey;
+
     @NotBlank
     private String endDateMetadataKey;
+
     @NotBlank
     @AffectsMetadata
     private String outputMetadataKey;
+
+    private transient String startDateMetadataValue;
+    private transient String endDateMetadataValue;
+    private transient String daysDifferenceValue;
 
 
     public void doService(AdaptrisMessage msg) throws ServiceException {
         try {
             SimpleDateFormat myFormat = new SimpleDateFormat(dateFormat);     //e.g. "yyyy-MM-dd"
 
-            String startDateMetadataValue = msg.getMetadataValue(startDateMetadataKey);
-            String endDateMetadataValue = msg.getMetadataValue(endDateMetadataKey);
+            startDateMetadataValue = msg.getMetadataValue(startDateMetadataKey);
+            endDateMetadataValue = msg.getMetadataValue(endDateMetadataKey);
 
             Date date1 = myFormat.parse(startDateMetadataValue);
             Date date2 = myFormat.parse(endDateMetadataValue);
 
             long difference = date1.getTime() - date2.getTime();
             long difference_days = TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS);
-            String difference_days_string = String.valueOf(difference_days);
+            daysDifferenceValue = String.valueOf(difference_days);      //convert to string
 
-            //System.out.println(difference_days_string);
-            msg.addMetadata(outputMetadataKey, difference_days_string);
+            //System.out.println(daysDifferenceValue);
+            msg.addMetadata(outputMetadataKey, daysDifferenceValue);
 
         } catch (Exception e) {
             ExceptionHelper.rethrowServiceException(e);
@@ -92,5 +99,29 @@ public class DateCompareService extends ServiceImp {
 
     public void setDateFormat(String dateFormat) {
         this.dateFormat = dateFormat;
+    }
+
+    public String getStartDateMetadataValue() {
+        return startDateMetadataValue;
+    }
+
+    public void setStartDateMetadataValue(String startDateMetadataValue) {
+        this.startDateMetadataValue = startDateMetadataValue;
+    }
+
+    public String getEndDateMetadataValue() {
+        return endDateMetadataValue;
+    }
+
+    public void setEndDateMetadataValue(String endDateMetadataValue) {
+        this.endDateMetadataValue = endDateMetadataValue;
+    }
+
+    public String getDaysDifferenceValue() {
+        return daysDifferenceValue;
+    }
+
+    public void setDaysDifferenceValue(String daysDifferenceValue) {
+        this.daysDifferenceValue = daysDifferenceValue;
     }
 }

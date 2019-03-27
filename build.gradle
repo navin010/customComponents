@@ -4,6 +4,7 @@ ext {
   defaultNexusRepo = project.hasProperty('defaultNexusRepo') ? project.getProperty('defaultNexusRepo') : 'https://repo1.maven.org/maven2/'
   componentName='Interlok/Example Service'
   slf4jVersion = '1.7.12'
+  xstreamVersion = '1.4.10'
 }
 
 if (JavaVersion.current().isJava8Compatible()) {
@@ -30,6 +31,7 @@ repositories {
   maven { url "https://nexus.adaptris.net/nexus/content/groups/public" }
   maven { url "https://nexus.adaptris.net/nexus/content/repositories/snapshots" }
   maven { url "https://nexus.adaptris.net/nexus/content/repositories/releases" }
+  //maven { url "https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream" }
 }
 
 
@@ -54,6 +56,7 @@ configurations.all {
 dependencies {
   compile ("com.adaptris:interlok-core:$interlokCoreVersion") { changing= true}
   compile ("org.slf4j:slf4j-api:$slf4jVersion")
+  //compile ("com.thoughtworks.xstream:xstream:$xstreamVersion")
 
   testCompile ('junit:junit:4.11')
   testCompile ("com.adaptris:interlok-stubs:$interlokCoreVersion") { changing= true}

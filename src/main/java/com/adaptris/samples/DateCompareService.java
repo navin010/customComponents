@@ -6,22 +6,29 @@ import com.adaptris.core.ServiceImp;
 import com.adaptris.core.util.ExceptionHelper;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.hibernate.validator.constraints.NotBlank;
-
+import com.adaptris.annotation.DisplayOrder;
+import com.adaptris.annotation.AdapterComponent;
+import com.adaptris.annotation.ComponentProfile;
+import com.adaptris.annotation.AffectsMetadata;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 @XStreamAlias("date-compare-service")
+@AdapterComponent
+@ComponentProfile(summary = "Find the difference in days between two date values", tag = "service,timestamp,datetime")
+@DisplayOrder(order = {"dateFormat", "startDateMetadataKey", "endDateMetadataKey", "outputMetadataKey"})
 public class DateCompareService extends ServiceImp {
 
+    @NotBlank
+    private String dateFormat;
     @NotBlank
     private String startDateMetadataKey;
     @NotBlank
     private String endDateMetadataKey;
     @NotBlank
+    @AffectsMetadata
     private String outputMetadataKey;
-    @NotBlank
-    private String dateFormat;
 
 
     public void doService(AdaptrisMessage msg) throws ServiceException {

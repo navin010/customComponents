@@ -18,26 +18,25 @@ import java.util.concurrent.TimeUnit;
 public class DateCompareService extends ServiceImp {
 
     @NotBlank
-    //private String startDate;
-    private DataInputParameter<String> startDate;
+    private String startDate;
+    //private DataInputParameter<String> startDate;
     @NotBlank
-    //private String endDate;
-    private DataInputParameter<String> endDate;
+    private String endDate;
+    //private DataInputParameter<String> endDate;
 
 
     public void doService(AdaptrisMessage msg) throws ServiceException {
         try {
             SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
-            //Date date1 = myFormat.parse(startDate);
-            //Date date2 = myFormat.parse(endDate);
-            String date1 = (String)((DataInputParameter)getStartDate()).extract(msg);           //cast to string
-            String date2 = (String)((DataInputParameter)getEndDate()).extract(msg);                //cast to string
+
+            Date date1 = myFormat.parse(startDate);
+            Date date2 = myFormat.parse(endDate);
 
             long difference = date1.getTime() - date2.getTime();
             long difference_days = TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS);
             String difference_days_string = String.valueOf(difference_days);
             System.out.println(difference_days_string);
-        } catch (Exception | InterlokException e) {
+        } catch (Exception e) {
             ExceptionHelper.rethrowServiceException(e);
         }
     }
@@ -51,19 +50,19 @@ public class DateCompareService extends ServiceImp {
     public final void closeService() {
     }
 
-    public DataInputParameter<String> getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(DataInputParameter<String> startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public DataInputParameter<String> getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(DataInputParameter<String> endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 }

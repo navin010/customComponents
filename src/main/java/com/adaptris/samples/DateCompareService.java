@@ -35,6 +35,7 @@ public class DateCompareService extends ServiceImp {
             long difference = date1.getTime() - date2.getTime();
             long difference_days = TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS);
             String difference_days_string = String.valueOf(difference_days);
+
             //System.out.println(difference_days_string);
             msg.addMetadata(outputMetadataKey, difference_days_string);
 

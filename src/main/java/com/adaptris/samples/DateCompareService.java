@@ -10,18 +10,25 @@ import com.adaptris.annotation.DisplayOrder;
 import com.adaptris.annotation.AdapterComponent;
 import com.adaptris.annotation.ComponentProfile;
 import com.adaptris.annotation.AffectsMetadata;
+import com.adaptris.annotation.AutoPopulated;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+import javax.validation.constraints.NotNull;
+
 
 @XStreamAlias("date-compare-service")
 @AdapterComponent
 @ComponentProfile(summary = "Find the difference in days between two date values", tag = "service,timestamp,datetime")
-@DisplayOrder(order = {"dateFormat", "startDateMetadataKey", "endDateMetadataKey", "outputMetadataKey"})
+@DisplayOrder(order = {"dateFormat", "unitOfTime", "startDateMetadataKey", "endDateMetadataKey", "outputMetadataKey"})
 public class DateCompareService extends ServiceImp {
 
     @NotBlank
     private String dateFormat;
+
+    @AutoPopulated
+    @NotNull
+    private com.adaptris.samples.TimeUnit unitOfTime = com.adaptris.samples.TimeUnit.DAYS;
 
     @NotBlank
     private String startDateMetadataKey;
@@ -35,7 +42,8 @@ public class DateCompareService extends ServiceImp {
 
     private transient String startDateMetadataValue;
     private transient String endDateMetadataValue;
-    private transient String daysDifferenceValue;
+    //private transient String daysDifferenceValue;
+    private transient String unitDifferenceValue;
 
 
     public void doService(AdaptrisMessage msg) throws ServiceException {
@@ -49,11 +57,14 @@ public class DateCompareService extends ServiceImp {
             Date date2 = myFormat.parse(endDateMetadataValue);
 
             long difference = date1.getTime() - date2.getTime();
-            long difference_days = TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS);
-            daysDifferenceValue = String.valueOf(difference_days);      //convert to string
 
-            //System.out.println(daysDifferenceValue);
-            msg.addMetadata(outputMetadataKey, daysDifferenceValue);
+            //long difference_days = TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS);
+            //daysDifferenceValue = String.valueOf(difference_days);      //convert to string
+
+            long difference_unit = TimeUnit.valueOf(unitOfTime.toString()).convert(difference, TimeUnit.MILLISECONDS);
+            unitDifferenceValue = String.valueOf(difference_unit);
+
+            msg.addMetadata(outputMetadataKey, unitDifferenceValue);
 
         } catch (Exception e) {
             ExceptionHelper.rethrowServiceException(e);
@@ -117,11 +128,29 @@ public class DateCompareService extends ServiceImp {
         this.endDateMetadataValue = endDateMetadataValue;
     }
 
+    /*
     public String getDaysDifferenceValue() {
         return daysDifferenceValue;
     }
 
     public void setDaysDifferenceValue(String daysDifferenceValue) {
         this.daysDifferenceValue = daysDifferenceValue;
+    }
+    */
+
+    public com.adaptris.samples.TimeUnit getUnitOfTime() {
+        return unitOfTime;
+    }
+
+    public void setUnitOfTime(com.adaptris.samples.TimeUnit unitOfTime) {
+        this.unitOfTime = unitOfTime;
+    }
+
+    public String getUnitDifferenceValue() {
+        return unitDifferenceValue;
+    }
+
+    public void setUnitDifferenceValue(String unitDifferenceValue) {
+        this.unitDifferenceValue = unitDifferenceValue;
     }
 }

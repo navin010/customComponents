@@ -25,8 +25,9 @@ public class DateCompareServiceTest extends ServiceCase {
     dcs.setEndDateMetadataKey("key2");
     dcs.setDateFormat("yyyy-MM-dd");
     dcs.setOutputMetadataKey("daysDifference");
+    dcs.setUnitOfTime(TimeUnit.DAYS);
     dcs.doService(adaptrisMessage);
-    String difference = dcs.getDaysDifferenceValue();
+    String difference = dcs.getUnitDifferenceValue();
     assertEquals("4", difference);            //expected (String) vs actual (String)
   }
 
@@ -37,6 +38,7 @@ public class DateCompareServiceTest extends ServiceCase {
     service.setStartDateMetadataKey("key1");
     service.setEndDateMetadataKey("key2");
     service.setOutputMetadataKey("daysDifference");
+    service.setUnitOfTime(TimeUnit.DAYS);
     return service;
   }
 

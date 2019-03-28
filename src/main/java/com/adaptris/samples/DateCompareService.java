@@ -24,7 +24,7 @@ import javax.validation.constraints.NotNull;
 public class DateCompareService extends ServiceImp {
 
     @NotBlank
-    private String dateFormat;
+    private String dateFormat = "yyyy-MM-dd";
 
     @AutoPopulated
     @NotNull

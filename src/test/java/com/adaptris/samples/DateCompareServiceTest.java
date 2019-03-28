@@ -54,7 +54,7 @@ public class DateCompareServiceTest extends ServiceCase {
     service.setDateFormat("yyyy-MM-dd");
     service.setStartDateMetadataKey("key1");
     service.setEndDateMetadataKey("key2");
-    service.setOutputMetadataKey("daysDifference");
+    service.setOutputMetadataKey("key3");
     service.setUnitOfTime(TimeUnit.DAYS);
     return service;
   }
